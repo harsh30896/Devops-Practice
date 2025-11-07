@@ -1,9 +1,12 @@
-FROM eclipse-temurin:21
-
-LABEL maintainer="hars30896@gmail.com"
-
+# Stage 1: Build the JAR using Maven
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-COPY target/DevopsPrac-0.0.1-SNAPSHOT.jar /app/DevopsPrac-0.0.1-SNAPSHOT.jar
-
-ENTRYPOINT ["java", "-jar", "DevopsPrac-0.0.1-SNAPSHOT.jar"]
+# Stage 2: Run the built JAR
+FROM eclipse-temurin:21
+WORKDIR /app
+COPY --from=builder /app/target/*.jar /app/app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
