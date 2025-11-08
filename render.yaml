@@ -1,0 +1,51 @@
+services:
+  # API Service - Main service
+  - type: web
+    name: devopsprac-api
+    runtime: docker
+    plan: free  # Change to starter/professional for production
+    dockerfilePath: ./services/api-service/Dockerfile
+    dockerContext: ./services/api-service
+    envVars:
+      - key: PORT
+        value: 8081
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+    healthCheckPath: /api/v1/test
+    
+  # User Service - User management microservice
+  - type: web
+    name: devopsprac-user-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./services/user-service/Dockerfile
+    dockerContext: ./services/user-service
+    envVars:
+      - key: PORT
+        value: 8082
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      # Example: Service-to-service communication
+      # - key: API_SERVICE_URL
+      #   value: https://devopsprac-api.onrender.com
+    healthCheckPath: /api/v1/users/health
+    
+  # Order Service - Order management microservice
+  - type: web
+    name: devopsprac-order-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./services/order-service/Dockerfile
+    dockerContext: ./services/order-service
+    envVars:
+      - key: PORT
+        value: 8083
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      # Example: Service-to-service communication
+      # - key: USER_SERVICE_URL
+      #   value: https://devopsprac-user-service.onrender.com
+      # - key: API_SERVICE_URL
+      #   value: https://devopsprac-api.onrender.com
+    healthCheckPath: /api/v1/orders/health
+
