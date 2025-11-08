@@ -5,6 +5,9 @@ WORKDIR /app
 COPY pom.xml .
 # Copy source code - this will invalidate cache when source changes
 COPY src ./src
+# Add build timestamp to force cache invalidation
+ARG BUILD_TIMESTAMP
+RUN echo "Build timestamp: ${BUILD_TIMESTAMP:-$(date +%s)}" > /tmp/build.info
 # Clean and rebuild - no cache for Maven dependencies
 RUN mvn clean package -DskipTests -U
 
