@@ -3,7 +3,7 @@ package com.orderservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.orderservice")
+@SpringBootApplication
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {

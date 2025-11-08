@@ -13,5 +13,10 @@ public class TestApi {
     public String testingController(){
         return "api is working fine";
     }
+    
+    @GetMapping("/health")
+    public String healthCheck(){
+        return "API Service is running";
+    }
 
 }
