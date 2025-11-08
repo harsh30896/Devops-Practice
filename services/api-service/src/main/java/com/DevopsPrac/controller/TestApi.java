@@ -16,7 +16,7 @@ public class TestApi {
     
     @GetMapping("/health")
     public String healthCheck(){
-        return "API Service is running";
+        return "API Service is running - Health check endpoint active";
     }
 
 }
