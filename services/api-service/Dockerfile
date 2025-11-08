@@ -3,11 +3,10 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 # Copy pom.xml first for better caching
 COPY pom.xml .
-# Copy source code
+# Copy source code - this will invalidate cache when source changes
 COPY src ./src
-# Force rebuild by invalidating cache with timestamp
-RUN echo "Build timestamp: $(date)" > /tmp/build.info
-RUN mvn clean package -DskipTests
+# Clean and rebuild - no cache for Maven dependencies
+RUN mvn clean package -DskipTests -U
 
 # Stage 2: Run the built JAR
 FROM eclipse-temurin:21
